@@ -33,10 +33,12 @@ body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background
 .dict-full{color:#475569;font-size:.92rem;font-style:italic;min-width:180px}
 .dict-cn{color:#1e293b;font-weight:500;font-size:.95rem}
 .chart-container{background:#fff;border-radius:24px;padding:1.2rem 1.2rem .8rem;border:1px solid #e9eef3;margin-bottom:1.5rem;box-shadow:0 4px 10px rgba(0,0,0,.02)}
-.chart-title{font-weight:600;font-size:1rem;margin-bottom:.8rem;color:#0f172a;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.chart-title{font-weight:600;font-size:1rem;margin-bottom:.8rem;color:#0f172a;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
 .chart-note{font-size:.8rem;color:#64748b;font-weight:400}
-canvas{width:100%;height:auto;display:block;max-height:280px;background:#fff;border-radius:12px}
-@media(max-width:640px){.section-title{font-size:1.4rem}.card{padding:1.2rem}.nav-btn{font-size:.85rem;padding:.6rem .8rem}.dict-full{min-width:100%}}
+canvas{width:100%;height:auto;display:block;background:#fff;border-radius:12px}
+.legend{display:flex;flex-wrap:wrap;gap:1rem 1.8rem;padding:.8rem .3rem .3rem;font-size:.85rem;color:#475569}
+.legend b{font-weight:700;margin-right:.3rem}
+@media(max-width:640px){.section-title{font-size:1.4rem}.card{padding:1.2rem}.nav-btn{font-size:.85rem;padding:.6rem .8rem}.dict-full{min-width:100%}.legend{font-size:.78rem;gap:.6rem 1rem}}
 </style>
 </head>
 <body>
@@ -63,7 +65,7 @@ canvas{width:100%;height:auto;display:block;max-height:280px;background:#fff;bor
 <p><span class="highlight">边际产量 MP</span>：每增加一单位可变投入所增加的产量。</p>
 <p><strong>规律</strong>：在固定投入不变时，连续增加可变投入，MP 最终会递减。</p>
 <ul><li>MP 上升 → 边际成本 MC 下降</li><li>MP 下降 → MC 上升</li><li>MP 最高点对应 MC 最低点</li></ul>
-<p>💡 记忆：<span class="highlight">“先递增后递减，交点即最优”</span>——MP 与 AP 相交于 AP 最高点。</p></div>
+<p>💡 记忆：<span class="highlight">"先递增后递减，交点即最优"</span>——MP 与 AP 相交于 AP 最高点。</p></div>
 
 <div class="card"><h3>⚖️ 供需关系与均衡 <span class="tag">基础</span></h3>
 <p><strong>需求定律</strong>：价格 P ↑ → 需求量 Qd ↓（其他条件不变）。需求曲线 <strong>向下倾斜</strong>。</p>
@@ -144,21 +146,35 @@ canvas{width:100%;height:auto;display:block;max-height:280px;background:#fff;bor
 <section id="charts" class="section">
 <h2 class="section-title">动态 / 静态图表展示</h2>
 <p class="section-sub">原生 JS 绘制 · 课本风格 · 标注清晰</p>
+
 <div class="chart-container">
-<div class="chart-title"><span>📊 TFC · TVC · TC 成本曲线</span><span class="chart-note">TFC 水平，TVC 上升，TC 与 TVC 平行</span></div>
-<canvas id="chart1" width="600" height="260"></canvas>
+<div class="chart-title"><span>📊 TFC · TVC · TC 成本曲线</span><span class="chart-note">TFC 水平，TVC 上升，TC 与 TVC 平行，距离 = TFC</span></div>
+<canvas id="chart1" width="800" height="360"></canvas>
+<div class="legend"><span><b style="color:#2563eb">━</b> TFC 总固定成本</span><span><b style="color:#16a34a">━</b> TVC 总可变成本</span><span><b style="color:#dc2626">━</b> TC 总成本</span></div>
 </div>
+
 <div class="chart-container">
 <div class="chart-title"><span>📉 MC · AC · AVC 曲线</span><span class="chart-note">MC 穿过 AVC 和 AC 的最低点</span></div>
-<canvas id="chart2" width="600" height="260"></canvas>
+<canvas id="chart2" width="800" height="360"></canvas>
+<div class="legend"><span><b style="color:#dc2626">━</b> MC 边际成本</span><span><b style="color:#16a34a">━</b> AVC 平均可变成本</span><span><b style="color:#2563eb">━</b> AC 平均总成本</span></div>
 </div>
+
 <div class="chart-container">
 <div class="chart-title"><span>⚖️ 供需曲线与均衡</span><span class="chart-note">D 向下，S 向上，交点 E 为均衡</span></div>
-<canvas id="chart3" width="600" height="260"></canvas>
+<canvas id="chart3" width="800" height="360"></canvas>
+<div class="legend"><span><b style="color:#2563eb">━</b> D 需求曲线</span><span><b style="color:#16a34a">━</b> S 供给曲线</span><span><b style="color:#dc2626">●</b> E 均衡点</span></div>
 </div>
+
 <div class="chart-container">
-<div class="chart-title"><span>🏢 完全竞争 vs 垄断 市场图形</span><span class="chart-note">完全竞争 P=MR=AR，垄断 MR<AR</span></div>
-<canvas id="chart4" width="600" height="260"></canvas>
+<div class="chart-title"><span>🏢 完全竞争 vs 垄断 市场图形</span><span class="chart-note">完全竞争 P=MR=AR；垄断 MR &lt; P</span></div>
+<canvas id="chart4" width="800" height="360"></canvas>
+<div class="legend"><span><b style="color:#2563eb">━</b> P=MR=AR（完全竞争）</span><span><b style="color:#dc2626">━</b> D（垄断需求）</span><span><b style="color:#9333ea">┅</b> MR（垄断边际收益）</span></div>
+</div>
+
+<div class="chart-container">
+<div class="chart-title"><span>📈 边际报酬递减规律</span><span class="chart-note">MP 先升后降，与 AP 相交于 AP 最高点</span></div>
+<canvas id="chart5" width="800" height="360"></canvas>
+<div class="legend"><span><b style="color:#dc2626">━</b> MP 边际产量</span><span><b style="color:#2563eb">━</b> AP 平均产量</span><span><b style="color:#16a34a">━</b> TP 总产量</span></div>
 </div>
 </section>
 
@@ -214,32 +230,451 @@ canvas{width:100%;height:auto;display:block;max-height:280px;background:#fff;bor
 </div>
 
 <script>
-(function(){const navBtns=document.querySelectorAll('.nav-btn');const sections=document.querySelectorAll('.section');navBtns.forEach(btn=>{btn.addEventListener('click',()=>{const target=btn.dataset.section;navBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');sections.forEach(s=>s.classList.remove('active'));document.getElementById(target).classList.add('active');});});})();
+// ===== 导航切换 =====
+(function(){
+  const navBtns=document.querySelectorAll('.nav-btn');
+  const sections=document.querySelectorAll('.section');
+  navBtns.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const target=btn.dataset.section;
+      navBtns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      sections.forEach(s=>s.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+    });
+  });
+})();
 
-function drawAxes(ctx,w,h,xLabel,yLabel,originX,originY){ctx.save();ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(originX,originY);ctx.lineTo(w-20,originY);ctx.stroke();ctx.beginPath();ctx.moveTo(originX,originY);ctx.lineTo(originX,20);ctx.stroke();ctx.fillStyle='#94a3b8';ctx.beginPath();ctx.moveTo(w-20,originY);ctx.lineTo(w-28,originY-5);ctx.lineTo(w-28,originY+5);ctx.fill();ctx.beginPath();ctx.moveTo(originX,20);ctx.lineTo(originX-5,28);ctx.lineTo(originX+5,28);ctx.fill();ctx.font='12px system-ui,sans-serif';ctx.fillStyle='#475569';ctx.fillText(xLabel,w-35,originY+20);ctx.fillText(yLabel,originX-30,30);ctx.restore();}
+// ===== 通用绘图工具 =====
+function setupCanvas(canvas){
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = canvas.width;
+  const cssH = canvas.height;
+  canvas.width = cssW * dpr;
+  canvas.height = cssH * dpr;
+  canvas.style.width = '100%';
+  canvas.style.height = 'auto';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return { ctx, w: cssW, h: cssH };
+}
 
-(function(){const canvas=document.getElementById('chart1');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','Cost',originX,originY);
-ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;const tfcY=originY-50;ctx.moveTo(originX,tfcY);ctx.lineTo(w-40,tfcY);ctx.stroke();ctx.fillStyle='#2563eb';ctx.font='bold 11px system-ui';ctx.fillText('TFC',w-70,tfcY-8);
-ctx.beginPath();ctx.strokeStyle='#16a34a';ctx.lineWidth=2.2;for(let x=0;x<=300;x++){const px=originX+x*1.6;const q=x;const tvc=0.008*q*q+0.3*q;const py=originY-tvc*0.9;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#16a34a';ctx.fillText('TVC',originX+230,originY-95);
-ctx.beginPath();ctx.strokeStyle='#dc2626';ctx.lineWidth=2.2;for(let x=0;x<=300;x++){const px=originX+x*1.6;const q=x;const tvc=0.008*q*q+0.3*q;const tc=tvc+55;const py=originY-tc*0.9;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#dc2626';ctx.fillText('TC',originX+250,originY-135);
-ctx.beginPath();ctx.setLineDash([4,4]);ctx.strokeStyle='#94a3b8';ctx.lineWidth=0.8;ctx.moveTo(originX+50,tfcY);ctx.lineTo(originX+50,originY-(55*0.9));ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#64748b';ctx.font='10px system-ui';ctx.fillText('TFC',originX+55,originY-30);})();
+function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
+  ctx.save();
+  // 网格
+  ctx.strokeStyle = '#f1f5f9';
+  ctx.lineWidth = 1;
+  for(let i=xStep; i<=xMax; i+=xStep){
+    const px = ox + (i/xMax)*(w-ox-40);
+    ctx.beginPath(); ctx.moveTo(px, oy); ctx.lineTo(px, 20); ctx.stroke();
+  }
+  for(let j=yStep; j<=yMax; j+=yStep){
+    const py = oy - (j/yMax)*(oy-20);
+    ctx.beginPath(); ctx.moveTo(ox, py); ctx.lineTo(w-40, py); ctx.stroke();
+  }
+  // 坐标轴
+  ctx.strokeStyle = '#64748b';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(w-30, oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox, 20); ctx.stroke();
+  // 箭头
+  ctx.fillStyle = '#64748b';
+  ctx.beginPath(); ctx.moveTo(w-30, oy); ctx.lineTo(w-40, oy-5); ctx.lineTo(w-40, oy+5); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(ox, 20); ctx.lineTo(ox-5, 30); ctx.lineTo(ox+5, 30); ctx.fill();
+  // 轴标签
+  ctx.fillStyle = '#0f172a';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText(xLabel, w-55, oy+22);
+  ctx.fillText(yLabel, ox-45, 30);
+  // 刻度
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '10px system-ui';
+  ctx.textAlign = 'center';
+  for(let i=xStep; i<=xMax; i+=xStep){
+    const px = ox + (i/xMax)*(w-ox-40);
+    ctx.fillText(i, px, oy+14);
+  }
+  ctx.textAlign = 'right';
+  for(let j=yStep; j<=yMax; j+=yStep){
+    const py = oy - (j/yMax)*(oy-20);
+    ctx.fillText(j, ox-6, py+3);
+  }
+  ctx.textAlign = 'left';
+  ctx.restore();
+}
 
-(function(){const canvas=document.getElementById('chart2');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','Cost',originX,originY);
-ctx.beginPath();ctx.strokeStyle='#dc2626';ctx.lineWidth=2.2;for(let x=10;x<=280;x+=2){const px=originX+x;const q=x/30;const mc=12+0.5*(q-3)*(q-3)*2.2;const py=originY-mc*2.2;if(x===10)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#dc2626';ctx.fillText('MC',originX+260,originY-75);
-ctx.beginPath();ctx.strokeStyle='#16a34a';ctx.lineWidth=2.2;for(let x=10;x<=280;x+=2){const px=originX+x;const q=x/30;const avc=18+0.5*(q-5)*(q-5)*1.2;const py=originY-avc*2.2;if(x===10)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#16a34a';ctx.fillText('AVC',originX+190,originY-110);
-ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;for(let x=10;x<=280;x+=2){const px=originX+x;const q=x/30;const ac=25+0.5*(q-7)*(q-7)*0.9;const py=originY-ac*2.2;if(x===10)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#2563eb';ctx.fillText('AC',originX+230,originY-150);
-ctx.beginPath();ctx.arc(originX+150,originY-85,4,0,2*Math.PI);ctx.fillStyle='#0f172a';ctx.fill();ctx.font='10px system-ui';ctx.fillStyle='#0f172a';ctx.fillText('MC=AVC最低',originX+160,originY-90);})();
+// ===== 图1: TFC / TVC / TC =====
+(function(){
+  const canvas = document.getElementById('chart1');
+  if(!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const ox = 55, oy = h - 35;
+  const xMax = 10, yMax = 100;
+  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost');
 
-(function(){const canvas=document.getElementById('chart3');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','P',originX,originY);
-ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;for(let x=0;x<=240;x+=4){const px=originX+x;const q=x/30;const p=22-0.9*q;const py=originY-p*5;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#2563eb';ctx.font='bold 12px system-ui';ctx.fillText('D',originX+220,originY-140);
-ctx.beginPath();ctx.strokeStyle='#16a34a';ctx.lineWidth=2.2;for(let x=0;x<=240;x+=4){const px=originX+x;const q=x/30;const p=4+1.0*q;const py=originY-p*5;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#16a34a';ctx.fillText('S',originX+220,originY-40);
-const eqQ=9,eqP=13;const eqPx=originX+eqQ*30/1.2;const eqPy=originY-eqP*5;ctx.beginPath();ctx.arc(eqPx,eqPy,5,0,2*Math.PI);ctx.fillStyle='#dc2626';ctx.fill();ctx.fillStyle='#dc2626';ctx.font='bold 12px system-ui';ctx.fillText('E',eqPx+8,eqPy-6);ctx.font='10px system-ui';ctx.fillStyle='#475569';ctx.fillText('均衡',eqPx+18,eqPy+14);})();
+  const scaleX = (w - ox - 40) / xMax;
+  const scaleY = (oy - 20) / yMax;
 
-(function(){const canvas=document.getElementById('chart4');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','P / R',originX,originY);
-ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;const pcP=14;const pcPy=originY-pcP*6;ctx.moveTo(originX,pcPy);ctx.lineTo(w-50,pcPy);ctx.stroke();ctx.fillStyle='#2563eb';ctx.font='bold 11px system-ui';ctx.fillText('P=MR=AR (完全竞争)',w-180,pcPy-8);
-ctx.beginPath();ctx.strokeStyle='#dc2626';ctx.lineWidth=2.2;for(let x=0;x<=220;x+=4){const px=originX+x;const q=x/30;const p=20-0.8*q;const py=originY-p*6;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#dc2626';ctx.fillText('D (垄断)',originX+180,originY-155);
-ctx.beginPath();ctx.strokeStyle='#9333ea';ctx.lineWidth=2;ctx.setLineDash([5,3]);for(let x=0;x<=180;x+=4){const px=originX+x;const q=x/30;const mr=20-1.6*q;const py=originY-mr*6;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#9333ea';ctx.fillText('MR (垄断)',originX+120,originY-60);
-ctx.font='10px system-ui';ctx.fillStyle='#475569';ctx.fillText('完全竞争 P 由市场决定',originX+10,originY-170);ctx.fillText('垄断 MR < P',originX+10,originY-150);})();
+  // TFC = 30 水平
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  ctx.moveTo(ox, oy - 30*scaleY);
+  ctx.lineTo(ox + xMax*scaleX, oy - 30*scaleY);
+  ctx.stroke();
+  ctx.fillStyle = '#2563eb';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('TFC = 30', ox + xMax*scaleX - 90, oy - 30*scaleY - 8);
+
+  // TVC = 0.8*Q^2 + 2*Q
+  ctx.beginPath();
+  ctx.strokeStyle = '#16a34a';
+  ctx.lineWidth = 3;
+  for(let q=0; q<=xMax; q+=0.1){
+    const tvc = 0.8*q*q + 2*q;
+    const px = ox + q*scaleX;
+    const py = oy - tvc*scaleY;
+    if(q===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('TVC', ox + 8*xMax/10*scaleX, oy - (0.8*64+16)*scaleY - 10);
+
+  // TC = TFC + TVC
+  ctx.beginPath();
+  ctx.strokeStyle = '#dc2626';
+  ctx.lineWidth = 3;
+  for(let q=0; q<=xMax; q+=0.1){
+    const tc = 30 + 0.8*q*q + 2*q;
+    const px = ox + q*scaleX;
+    const py = oy - tc*scaleY;
+    if(q===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('TC', ox + 8.5*xMax/10*scaleX, oy - (30+0.8*72+18)*scaleY - 10);
+
+  // 标注 TFC 距离
+  ctx.save();
+  ctx.setLineDash([5,5]);
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(ox + 5*scaleX, oy - 30*scaleY);
+  ctx.lineTo(ox + 5*scaleX, oy - (30+0.8*25+10)*scaleY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#64748b';
+  ctx.font = '11px system-ui';
+  ctx.fillText('TFC 距离', ox + 5*scaleX + 5, oy - 50*scaleY);
+  ctx.restore();
+
+  // Q=0 时 TC=TFC
+  ctx.beginPath();
+  ctx.arc(ox, oy - 30*scaleY, 4, 0, 2*Math.PI);
+  ctx.fillStyle = '#0f172a';
+  ctx.fill();
+  ctx.fillStyle = '#0f172a';
+  ctx.font = '11px system-ui';
+  ctx.fillText('Q=0, TC=TFC', ox + 8, oy - 30*scaleY - 8);
+})();
+
+// ===== 图2: MC / AC / AVC =====
+(function(){
+  const canvas = document.getElementById('chart2');
+  if(!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const ox = 55, oy = h - 35;
+  const xMax = 10, yMax = 100;
+  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost');
+
+  const scaleX = (w - ox - 40) / xMax;
+  const scaleY = (oy - 20) / yMax;
+
+  // MC = 4 + 0.8*(Q-5)^2
+  ctx.beginPath();
+  ctx.strokeStyle = '#dc2626';
+  ctx.lineWidth = 3;
+  for(let q=0.5; q<=xMax; q+=0.1){
+    const mc = 4 + 0.8*(q-5)*(q-5);
+    const px = ox + q*scaleX;
+    const py = oy - mc*scaleY;
+    if(q===0.5) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('MC', ox + xMax*scaleX - 40, oy - (4+0.8*25)*scaleY - 10);
+
+  // AVC = 8 + 0.5*(Q-6)^2
+  ctx.beginPath();
+  ctx.strokeStyle = '#16a34a';
+  ctx.lineWidth = 3;
+  for(let q=1; q<=xMax; q+=0.1){
+    const avc = 8 + 0.5*(q-6)*(q-6);
+    const px = ox + q*scaleX;
+    const py = oy - avc*scaleY;
+    if(q===1) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('AVC', ox + xMax*scaleX - 60, oy - (8+0.5*16)*scaleY - 10);
+
+  // AC = 15 + 0.4*(Q-8)^2
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  for(let q=1.5; q<=xMax; q+=0.1){
+    const ac = 15 + 0.4*(q-8)*(q-8);
+    const px = ox + q*scaleX;
+    const py = oy - ac*scaleY;
+    if(q===1.5) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#2563eb';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('AC', ox + xMax*scaleX - 60, oy - (15+0.4*4)*scaleY - 10);
+
+  // MC=AVC 交点
+  const qm = 5.2;
+  const mcEq = 4 + 0.8*(qm-5)*(qm-5);
+  const pxEq = ox + qm*scaleX;
+  const pyEq = oy - mcEq*scaleY;
+  ctx.beginPath();
+  ctx.arc(pxEq, pyEq, 5, 0, 2*Math.PI);
+  ctx.fillStyle = '#0f172a';
+  ctx.fill();
+  ctx.fillStyle = '#0f172a';
+  ctx.font = '11px system-ui';
+  ctx.fillText('MC=AVC 最低点', pxEq + 8, pyEq - 8);
+
+  // MC=AC 交点
+  const qa = 7.5;
+  const mcEq2 = 4 + 0.8*(qa-5)*(qa-5);
+  const pxEq2 = ox + qa*scaleX;
+  const pyEq2 = oy - mcEq2*scaleY;
+  ctx.beginPath();
+  ctx.arc(pxEq2, pyEq2, 5, 0, 2*Math.PI);
+  ctx.fillStyle = '#0f172a';
+  ctx.fill();
+  ctx.font = '11px system-ui';
+  ctx.fillText('MC=AC 最低点', pxEq2 + 8, pyEq2 + 16);
+})();
+
+// ===== 图3: 供需曲线 =====
+(function(){
+  const canvas = document.getElementById('chart3');
+  if(!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const ox = 55, oy = h - 35;
+  const xMax = 10, yMax = 20;
+  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 4, 'Q 数量', 'P 价格');
+
+  const scaleX = (w - ox - 40) / xMax;
+  const scaleY = (oy - 20) / yMax;
+
+  // D: P = 20 - 1.5Q
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  for(let q=0; q<=xMax; q+=0.1){
+    const p = 20 - 1.5*q;
+    if(p < 0) break;
+    const px = ox + q*scaleX;
+    const py = oy - p*scaleY;
+    if(q===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#2563eb';
+  ctx.font = 'bold 14px system-ui';
+  ctx.fillText('D', ox + 0.5*scaleX, oy - (20-0.75)*scaleY - 8);
+
+  // S: P = 2 + 1.2Q
+  ctx.beginPath();
+  ctx.strokeStyle = '#16a34a';
+  ctx.lineWidth = 3;
+  for(let q=0; q<=xMax; q+=0.1){
+    const p = 2 + 1.2*q;
+    if(p > yMax) break;
+    const px = ox + q*scaleX;
+    const py = oy - p*scaleY;
+    if(q===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 14px system-ui';
+  ctx.fillText('S', ox + xMax*scaleX - 25, oy - (2+1.2*xMax)*scaleY + 5);
+
+  // 均衡：Q=6.67, P=10
+  const eqQ = 6.67, eqP = 10;
+  const eqPx = ox + eqQ*scaleX;
+  const eqPy = oy - eqP*scaleY;
+  ctx.beginPath();
+  ctx.arc(eqPx, eqPy, 6, 0, 2*Math.PI);
+  ctx.fillStyle = '#dc2626';
+  ctx.fill();
+  ctx.strokeStyle = 'white';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 14px system-ui';
+  ctx.fillText('E 均衡', eqPx + 10, eqPy - 8);
+
+  // 虚线
+  ctx.save();
+  ctx.setLineDash([5,5]);
+  ctx.strokeStyle = '#dc2626';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(eqPx, eqPy); ctx.lineTo(eqPx, oy); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(eqPx, eqPy); ctx.lineTo(ox, eqPy); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#dc2626';
+  ctx.font = '11px system-ui';
+  ctx.fillText('Q*=' + eqQ.toFixed(1), eqPx - 18, oy + 14);
+  ctx.fillText('P*=' + eqP, ox - 48, eqPy + 4);
+  ctx.restore();
+})();
+
+// ===== 图4: 完全竞争 vs 垄断 =====
+(function(){
+  const canvas = document.getElementById('chart4');
+  if(!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const ox = 55, oy = h - 35;
+  const xMax = 10, yMax = 25;
+  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'Q 数量', 'P / R');
+
+  const scaleX = (w - ox - 40) / xMax;
+  const scaleY = (oy - 20) / yMax;
+
+  // 完全竞争 P=MR=AR=15
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  ctx.moveTo(ox, oy - 15*scaleY);
+  ctx.lineTo(ox + xMax*scaleX, oy - 15*scaleY);
+  ctx.stroke();
+  ctx.fillStyle = '#2563eb';
+  ctx.font = 'bold 12px system-ui';
+  ctx.fillText('P=MR=AR (完全竞争)', ox + 10, oy - 15*scaleY - 8);
+
+  // 垄断 D: P = 25 - 2Q
+  ctx.beginPath();
+  ctx.strokeStyle = '#dc2626';
+  ctx.lineWidth = 3;
+  for(let q=0; q<=xMax; q+=0.1){
+    const p = 25 - 2*q;
+    if(p < 0) break;
+    const px = ox + q*scaleX;
+    const py = oy - p*scaleY;
+    if(q===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('D (垄断)', ox + 0.3*scaleX, oy - 25*scaleY + 15);
+
+  // 垄断 MR: P = 25 - 4Q
+  ctx.beginPath();
+  ctx.strokeStyle = '#9333ea';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([8,5]);
+  for(let q=0; q<=xMax; q+=0.1){
+    const p = 25 - 4*q;
+    if(p < 0) break;
+    const px = ox + q*scaleX;
+    const py = oy - p*scaleY;
+    if(q===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#9333ea';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('MR (垄断)', ox + 1.5*scaleX, oy - (25-6)*scaleY - 8);
+
+  ctx.fillStyle = '#64748b';
+  ctx.font = '11px system-ui';
+  ctx.fillText('垄断时 MR 始终低于 AR/P', ox + 10, 35);
+})();
+
+// ===== 图5: 边际报酬递减 =====
+(function(){
+  const canvas = document.getElementById('chart5');
+  if(!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const ox = 55, oy = h - 35;
+  const xMax = 10, yMax = 30;
+  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'L 劳动投入', 'TP / AP / MP');
+
+  const scaleX = (w - ox - 40) / xMax;
+  const scaleY = (oy - 20) / yMax;
+
+  // TP = 8L - 0.4L^2
+  ctx.beginPath();
+  ctx.strokeStyle = '#16a34a';
+  ctx.lineWidth = 3;
+  for(let l=0; l<=xMax; l+=0.1){
+    const tp = 8*l - 0.4*l*l;
+    if(tp < 0) continue;
+    const px = ox + l*scaleX;
+    const py = oy - tp*scaleY;
+    if(l===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#16a34a';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('TP 总产量', ox + 0.5*scaleX, oy - 35*scaleY + 10);
+
+  // AP = 8 - 0.4L
+  ctx.beginPath();
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 3;
+  for(let l=0.2; l<=xMax; l+=0.1){
+    const ap = 8 - 0.4*l;
+    if(ap < 0) continue;
+    const px = ox + l*scaleX;
+    const py = oy - ap*scaleY;
+    if(l===0.2) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#2563eb';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('AP 平均产量', ox + 4.5*scaleX, oy - 8*scaleY + 12);
+
+  // MP = 8 - 0.8L
+  ctx.beginPath();
+  ctx.strokeStyle = '#dc2626';
+  ctx.lineWidth = 3;
+  for(let l=0.2; l<=xMax; l+=0.1){
+    const mp = 8 - 0.8*l;
+    if(mp < 0) continue;
+    const px = ox + l*scaleX;
+    const py = oy - mp*scaleY;
+    if(l===0.2) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#dc2626';
+  ctx.font = 'bold 13px system-ui';
+  ctx.fillText('MP 边际产量', ox + 2*scaleX, oy - 8*scaleY - 8);
+
+  // MP=AP 交点 (L=4)
+  const Lx = 4;
+  const MPx = 8 - 0.8*Lx;
+  const pxEq = ox + Lx*scaleX;
+  const pyEq = oy - MPx*scaleY;
+  ctx.beginPath();
+  ctx.arc(pxEq, pyEq, 5, 0, 2*Math.PI);
+  ctx.fillStyle = '#0f172a';
+  ctx.fill();
+  ctx.fillStyle = '#0f172a';
+  ctx.font = '11px system-ui';
+  ctx.fillText('MP=AP (AP最高点)', pxEq + 8, pyEq - 6);
+})();
 </script>
 </body>
 </html>
