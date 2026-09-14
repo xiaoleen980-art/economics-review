@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>经济学原理 · 专属复习站</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f5f7fa;color:#1e293b;line-height:1.5;padding:1rem;min-height:100vh}
+.app{max-width:1400px;margin:0 auto}
+.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;background:#fff;border-radius:48px;padding:.5rem;box-shadow:0 2px 8px rgba(0,0,0,.04);border:1px solid #e9eef3;margin-bottom:2rem}
+.nav-btn{flex:1 1 auto;padding:.7rem 1.2rem;border:none;border-radius:40px;background:transparent;font-size:.95rem;font-weight:500;color:#475569;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.3px}
+.nav-btn:hover{background:#f1f5f9;color:#0f172a}
+.nav-btn.active{background:#0f172a;color:#fff;font-weight:600;box-shadow:0 4px 10px rgba(15,23,42,.15)}
+.section{display:none;animation:fade .2s ease}
+.section.active{display:block}
+@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-size:1.8rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.5rem;color:#0f172a}
+.section-sub{color:#64748b;margin-bottom:1.8rem;font-size:.95rem;border-left:3px solid #cbd5e1;padding-left:.9rem}
+.card{background:#fff;border-radius:24px;padding:1.5rem 1.6rem;border:1px solid #e9eef3;box-shadow:0 4px 12px rgba(0,0,0,.02);margin-bottom:1.2rem;transition:border-color .2s}
+.card:hover{border-color:#cbd5e1}
+.card h3{font-size:1.2rem;font-weight:600;margin-bottom:.8rem;color:#0f172a;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.card h3 .tag{font-size:.7rem;font-weight:500;background:#eef2ff;color:#4338ca;padding:.15rem .6rem;border-radius:20px;letter-spacing:.2px}
+.card p,.card li{color:#334155;font-size:.95rem;line-height:1.6}
+.card ul,.card ol{padding-left:1.2rem;margin-top:.5rem}
+.card li{margin-bottom:.4rem}
+.highlight{background:#fef9c3;padding:.1rem .3rem;border-radius:6px;font-weight:500;color:#854d0e}
+.formula{font-family:'SF Mono','Cascadia Code','Consolas',monospace;background:#f1f5f9;padding:.3rem .6rem;border-radius:10px;font-size:.95rem;display:inline-block;margin:.2rem 0;border:1px solid #e2e8f0;color:#0f172a}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.2rem}
+.dict-item{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1rem;padding:.6rem 0;border-bottom:1px solid #f1f5f9}
+.dict-item:last-child{border-bottom:none}
+.dict-abbr{font-weight:700;font-size:1rem;color:#0f172a;min-width:70px;font-family:'SF Mono',monospace}
+.dict-full{color:#475569;font-size:.92rem;font-style:italic;min-width:180px}
+.dict-cn{color:#1e293b;font-weight:500;font-size:.95rem}
+.chart-container{background:#fff;border-radius:24px;padding:1.2rem 1.2rem .8rem;border:1px solid #e9eef3;margin-bottom:1.5rem;box-shadow:0 4px 10px rgba(0,0,0,.02)}
+.chart-title{font-weight:600;font-size:1rem;margin-bottom:.8rem;color:#0f172a;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.chart-note{font-size:.8rem;color:#64748b;font-weight:400}
+canvas{width:100%;height:auto;display:block;max-height:280px;background:#fff;border-radius:12px}
+@media(max-width:640px){.section-title{font-size:1.4rem}.card{padding:1.2rem}.nav-btn{font-size:.85rem;padding:.6rem .8rem}.dict-full{min-width:100%}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="nav">
+<button class="nav-btn active" data-section="concepts">📘 概念详解</button>
+<button class="nav-btn" data-section="formulas">📐 公式专区</button>
+<button class="nav-btn" data-section="charts">📊 图表展示</button>
+<button class="nav-btn" data-section="dictionary">📖 缩写词典</button>
+</nav>
+
+<section id="concepts" class="section active">
+<h2 class="section-title">概念详细解释</h2>
+<p class="section-sub">覆盖微观经济学核心考点 · 通俗易懂 · 考试向</p>
+<div class="grid-2">
+<div class="card"><h3>📌 成本三兄弟：TFC / TVC / TC <span class="tag">核心</span></h3>
+<p><span class="highlight">TFC (Total Fixed Cost)</span> = 总固定成本。不随产量 Q 变化，即使 Q=0 也存在（如租金、设备折旧）。所以图形是 <strong>水平直线</strong>。</p>
+<p><span class="highlight">TVC (Total Variable Cost)</span> = 总可变成本。随产量 Q 增加而增加（如原材料、工资）。图形从原点出发，<strong>向上倾斜</strong>，先以递减速率上升，后以递增速率上升（边际报酬递减）。</p>
+<p><span class="highlight">TC (Total Cost)</span> = TFC + TVC。因为 TFC 是常数，所以 <strong>TC 与 TVC 平行</strong>，TC 始终比 TVC 高一个 TFC 的距离。</p>
+<p>📐 关系：<span class="formula">TC = TFC + TVC</span></p>
+<ul><li>Q=0 时，TC = TFC，TVC = 0</li><li>TFC 永远水平；TVC 从原点开始上升；TC 从 TFC 高度开始上升</li><li>TC 与 TVC 的垂直距离 = TFC（恒定）</li></ul></div>
+
+<div class="card"><h3>📉 边际报酬递减规律 <span class="tag">必考</span></h3>
+<p><span class="highlight">边际产量 MP</span>：每增加一单位可变投入所增加的产量。</p>
+<p><strong>规律</strong>：在固定投入不变时，连续增加可变投入，MP 最终会递减。</p>
+<ul><li>MP 上升 → 边际成本 MC 下降</li><li>MP 下降 → MC 上升</li><li>MP 最高点对应 MC 最低点</li></ul>
+<p>💡 记忆：<span class="highlight">“先递增后递减，交点即最优”</span>——MP 与 AP 相交于 AP 最高点。</p></div>
+
+<div class="card"><h3>⚖️ 供需关系与均衡 <span class="tag">基础</span></h3>
+<p><strong>需求定律</strong>：价格 P ↑ → 需求量 Qd ↓（其他条件不变）。需求曲线 <strong>向下倾斜</strong>。</p>
+<p><strong>供给定律</strong>：价格 P ↑ → 供给量 Qs ↑。供给曲线 <strong>向上倾斜</strong>。</p>
+<p>均衡点：Qd = Qs 时的 P 和 Q。此时市场出清，无短缺无过剩。</p>
+<ul><li>需求增加（曲线右移）→ 均衡 P↑, Q↑</li><li>供给增加（曲线右移）→ 均衡 P↓, Q↑</li><li>需求减少 → P↓, Q↓；供给减少 → P↑, Q↓</li></ul></div>
+
+<div class="card"><h3>📏 弹性 (Elasticity) <span class="tag">高频</span></h3>
+<p><strong>需求价格弹性 Ed</strong>：需求量对价格变化的敏感程度。</p>
+<p><span class="formula">Ed = %ΔQd / %ΔP</span>（绝对值通常取正）</p>
+<ul><li>Ed > 1：富有弹性（奢侈品）→ 降价增收</li><li>Ed < 1：缺乏弹性（必需品）→ 涨价增收</li><li>Ed = 1：单位弹性 → 收入不变</li></ul>
+<p><strong>供给弹性 Es</strong>：供给量对价格变化的敏感程度，公式类似。</p></div>
+
+<div class="card"><h3>🏢 市场结构对比 <span class="tag">重点</span></h3>
+<p><strong>完全竞争</strong>：无数小厂商，同质产品，价格接受者，P = MR = AR，长期利润为零。</p>
+<p><strong>垄断</strong>：一家厂商，价格制定者，MR < P，存在进入壁垒，长期可获超额利润。</p>
+<p><strong>垄断竞争</strong>：许多厂商，差异化产品，短期像垄断，长期利润趋零。</p>
+<p><strong>寡头</strong>：少数几家，相互依存，博弈论。</p></div>
+
+<div class="card"><h3>📊 短期成本曲线关系 <span class="tag">必考</span></h3>
+<p><strong>MC / AVC / AC 关系</strong>：</p>
+<ul><li>MC 与 AVC 相交于 AVC 最低点</li><li>MC 与 AC 相交于 AC 最低点</li><li>MC < AC 时，AC 下降；MC > AC 时，AC 上升</li><li>AVC 先于 AC 到达最低点（因为 AC 包含 AFC，AFC 一直下降）</li></ul>
+<p>📐 <span class="formula">AC = AVC + AFC</span>，<span class="formula">AFC = TFC / Q</span> 一直下降。</p></div>
+</div>
+</section>
+
+<section id="formulas" class="section">
+<h2 class="section-title">全套公式专区</h2>
+<p class="section-sub">分类清晰 · 字母含义 · 使用场景 · 直接背诵</p>
+<div class="grid-2">
+<div class="card"><h3>💰 成本公式</h3>
+<p><span class="formula">TC = TFC + TVC</span> — 总成本 = 总固定 + 总可变</p>
+<p><span class="formula">AC = TC / Q</span> — 平均总成本</p>
+<p><span class="formula">AVC = TVC / Q</span> — 平均可变成本</p>
+<p><span class="formula">AFC = TFC / Q</span> — 平均固定成本</p>
+<p><span class="formula">MC = ΔTC / ΔQ</span> — 边际成本</p>
+<p>字母含义：TC总成本，TFC总固定，TVC总可变，Q产量，AC平均总成本，AVC平均可变，AFC平均固定，MC边际成本。</p>
+<p>📌 使用场景：计算短期成本、分析成本曲线关系。</p></div>
+
+<div class="card"><h3>📈 收益公式</h3>
+<p><span class="formula">TR = P × Q</span> — 总收益</p>
+<p><span class="formula">AR = TR / Q = P</span> — 平均收益</p>
+<p><span class="formula">MR = ΔTR / ΔQ</span> — 边际收益</p>
+<p>字母含义：TR总收益，P价格，Q销量，AR平均收益，MR边际收益。</p>
+<p>📌 使用场景：完全竞争下 P = AR = MR；垄断下 MR < AR。</p></div>
+
+<div class="card"><h3>📐 弹性公式</h3>
+<p><span class="formula">Ed = %ΔQd / %ΔP</span> — 需求价格弹性</p>
+<p><span class="formula">Es = %ΔQs / %ΔP</span> — 供给价格弹性</p>
+<p><span class="formula">Ey = %ΔQd / %ΔY</span> — 收入弹性</p>
+<p><span class="formula">Exy = %ΔQx / %ΔPy</span> — 交叉弹性</p>
+<p>字母含义：Ed需求弹性，Es供给弹性，Ey收入弹性，Exy交叉弹性，Y收入。</p>
+<p>📌 使用场景：判断商品性质（正常品/劣等品/替代/互补）。</p></div>
+
+<div class="card"><h3>⚖️ 均衡与利润公式</h3>
+<p><span class="formula">Qd = Qs</span> — 市场均衡条件</p>
+<p><span class="formula">Profit = TR - TC</span> — 利润</p>
+<p><span class="formula">π = (P - AC) × Q</span> — 利润的另一种表达</p>
+<p><span class="formula">MR = MC</span> — 利润最大化条件</p>
+<p>字母含义：Qd需求量，Qs供给量，π利润，MR边际收益，MC边际成本。</p>
+<p>📌 使用场景：求均衡价格/产量、判断盈亏、定价决策。</p></div>
+
+<div class="card"><h3>📉 边际与平均关系</h3>
+<p><span class="formula">MP = ΔTP / ΔL</span> — 边际产量</p>
+<p><span class="formula">AP = TP / L</span> — 平均产量</p>
+<p>MP > AP 时，AP 上升；MP < AP 时，AP 下降；MP = AP 时，AP 最大。</p>
+<p>📌 使用场景：分析生产函数、边际报酬递减。</p></div>
+
+<div class="card"><h3>🧮 其他常用公式</h3>
+<p><span class="formula">P = AR = MR</span>（完全竞争）</p>
+<p><span class="formula">Lerner Index = (P - MC) / P</span> — 垄断势力度</p>
+<p><span class="formula">Consumer Surplus = ½ × (Pmax - P) × Q</span></p>
+<p><span class="formula">Producer Surplus = ½ × (P - Pmin) × Q</span></p>
+<p>📌 使用场景：福利分析、市场效率。</p></div>
+</div>
+</section>
+
+<section id="charts" class="section">
+<h2 class="section-title">动态 / 静态图表展示</h2>
+<p class="section-sub">原生 JS 绘制 · 课本风格 · 标注清晰</p>
+<div class="chart-container">
+<div class="chart-title"><span>📊 TFC · TVC · TC 成本曲线</span><span class="chart-note">TFC 水平，TVC 上升，TC 与 TVC 平行</span></div>
+<canvas id="chart1" width="600" height="260"></canvas>
+</div>
+<div class="chart-container">
+<div class="chart-title"><span>📉 MC · AC · AVC 曲线</span><span class="chart-note">MC 穿过 AVC 和 AC 的最低点</span></div>
+<canvas id="chart2" width="600" height="260"></canvas>
+</div>
+<div class="chart-container">
+<div class="chart-title"><span>⚖️ 供需曲线与均衡</span><span class="chart-note">D 向下，S 向上，交点 E 为均衡</span></div>
+<canvas id="chart3" width="600" height="260"></canvas>
+</div>
+<div class="chart-container">
+<div class="chart-title"><span>🏢 完全竞争 vs 垄断 市场图形</span><span class="chart-note">完全竞争 P=MR=AR，垄断 MR<AR</span></div>
+<canvas id="chart4" width="600" height="260"></canvas>
+</div>
+</section>
+
+<section id="dictionary" class="section">
+<h2 class="section-title">专有名词 & 缩写词典</h2>
+<p class="section-sub">全部考点缩写 · 快速查阅 · 排版整齐</p>
+<div class="grid-2">
+<div class="card"><h3>🔤 成本与产量类</h3>
+<div class="dict-item"><span class="dict-abbr">TFC</span><span class="dict-full">Total Fixed Cost</span><span class="dict-cn">总固定成本</span></div>
+<div class="dict-item"><span class="dict-abbr">TVC</span><span class="dict-full">Total Variable Cost</span><span class="dict-cn">总可变成本</span></div>
+<div class="dict-item"><span class="dict-abbr">TC</span><span class="dict-full">Total Cost</span><span class="dict-cn">总成本</span></div>
+<div class="dict-item"><span class="dict-abbr">AC</span><span class="dict-full">Average Cost</span><span class="dict-cn">平均总成本</span></div>
+<div class="dict-item"><span class="dict-abbr">AVC</span><span class="dict-full">Average Variable Cost</span><span class="dict-cn">平均可变成本</span></div>
+<div class="dict-item"><span class="dict-abbr">AFC</span><span class="dict-full">Average Fixed Cost</span><span class="dict-cn">平均固定成本</span></div>
+<div class="dict-item"><span class="dict-abbr">MC</span><span class="dict-full">Marginal Cost</span><span class="dict-cn">边际成本</span></div>
+<div class="dict-item"><span class="dict-abbr">MP</span><span class="dict-full">Marginal Product</span><span class="dict-cn">边际产量</span></div>
+<div class="dict-item"><span class="dict-abbr">AP</span><span class="dict-full">Average Product</span><span class="dict-cn">平均产量</span></div>
+<div class="dict-item"><span class="dict-abbr">TP</span><span class="dict-full">Total Product</span><span class="dict-cn">总产量</span></div>
+</div>
+
+<div class="card"><h3>📈 收益与市场类</h3>
+<div class="dict-item"><span class="dict-abbr">TR</span><span class="dict-full">Total Revenue</span><span class="dict-cn">总收益</span></div>
+<div class="dict-item"><span class="dict-abbr">AR</span><span class="dict-full">Average Revenue</span><span class="dict-cn">平均收益</span></div>
+<div class="dict-item"><span class="dict-abbr">MR</span><span class="dict-full">Marginal Revenue</span><span class="dict-cn">边际收益</span></div>
+<div class="dict-item"><span class="dict-abbr">P</span><span class="dict-full">Price</span><span class="dict-cn">价格</span></div>
+<div class="dict-item"><span class="dict-abbr">Q</span><span class="dict-full">Quantity</span><span class="dict-cn">数量 / 产量</span></div>
+<div class="dict-item"><span class="dict-abbr">ED</span><span class="dict-full">Elasticity of Demand</span><span class="dict-cn">需求弹性</span></div>
+<div class="dict-item"><span class="dict-abbr">ES</span><span class="dict-full">Elasticity of Supply</span><span class="dict-cn">供给弹性</span></div>
+<div class="dict-item"><span class="dict-abbr">π</span><span class="dict-full">Profit</span><span class="dict-cn">利润</span></div>
+</div>
+
+<div class="card"><h3>🏛️ 市场结构 & 其他</h3>
+<div class="dict-item"><span class="dict-abbr">PC</span><span class="dict-full">Perfect Competition</span><span class="dict-cn">完全竞争</span></div>
+<div class="dict-item"><span class="dict-abbr">Monopoly</span><span class="dict-full">Monopoly</span><span class="dict-cn">垄断</span></div>
+<div class="dict-item"><span class="dict-abbr">MC</span><span class="dict-full">Monopolistic Competition</span><span class="dict-cn">垄断竞争</span></div>
+<div class="dict-item"><span class="dict-abbr">Oligopoly</span><span class="dict-full">Oligopoly</span><span class="dict-cn">寡头</span></div>
+<div class="dict-item"><span class="dict-abbr">D</span><span class="dict-full">Demand</span><span class="dict-cn">需求</span></div>
+<div class="dict-item"><span class="dict-abbr">S</span><span class="dict-full">Supply</span><span class="dict-cn">供给</span></div>
+<div class="dict-item"><span class="dict-abbr">CS</span><span class="dict-full">Consumer Surplus</span><span class="dict-cn">消费者剩余</span></div>
+<div class="dict-item"><span class="dict-abbr">PS</span><span class="dict-full">Producer Surplus</span><span class="dict-cn">生产者剩余</span></div>
+<div class="dict-item"><span class="dict-abbr">DWL</span><span class="dict-full">Deadweight Loss</span><span class="dict-cn">无谓损失</span></div>
+</div>
+
+<div class="card"><h3>🔍 弹性与福利</h3>
+<div class="dict-item"><span class="dict-abbr">Ey</span><span class="dict-full">Income Elasticity</span><span class="dict-cn">收入弹性</span></div>
+<div class="dict-item"><span class="dict-abbr">Exy</span><span class="dict-full">Cross Elasticity</span><span class="dict-cn">交叉弹性</span></div>
+<div class="dict-item"><span class="dict-abbr">PED</span><span class="dict-full">Price Elasticity of Demand</span><span class="dict-cn">需求价格弹性</span></div>
+<div class="dict-item"><span class="dict-abbr">PES</span><span class="dict-full">Price Elasticity of Supply</span><span class="dict-cn">供给价格弹性</span></div>
+<div class="dict-item"><span class="dict-abbr">Lerner</span><span class="dict-full">Lerner Index</span><span class="dict-cn">勒纳指数</span></div>
+</div>
+</div>
+</section>
+</div>
+
+<script>
+(function(){const navBtns=document.querySelectorAll('.nav-btn');const sections=document.querySelectorAll('.section');navBtns.forEach(btn=>{btn.addEventListener('click',()=>{const target=btn.dataset.section;navBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');sections.forEach(s=>s.classList.remove('active'));document.getElementById(target).classList.add('active');});});})();
+
+function drawAxes(ctx,w,h,xLabel,yLabel,originX,originY){ctx.save();ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(originX,originY);ctx.lineTo(w-20,originY);ctx.stroke();ctx.beginPath();ctx.moveTo(originX,originY);ctx.lineTo(originX,20);ctx.stroke();ctx.fillStyle='#94a3b8';ctx.beginPath();ctx.moveTo(w-20,originY);ctx.lineTo(w-28,originY-5);ctx.lineTo(w-28,originY+5);ctx.fill();ctx.beginPath();ctx.moveTo(originX,20);ctx.lineTo(originX-5,28);ctx.lineTo(originX+5,28);ctx.fill();ctx.font='12px system-ui,sans-serif';ctx.fillStyle='#475569';ctx.fillText(xLabel,w-35,originY+20);ctx.fillText(yLabel,originX-30,30);ctx.restore();}
+
+(function(){const canvas=document.getElementById('chart1');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','Cost',originX,originY);
+ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;const tfcY=originY-50;ctx.moveTo(originX,tfcY);ctx.lineTo(w-40,tfcY);ctx.stroke();ctx.fillStyle='#2563eb';ctx.font='bold 11px system-ui';ctx.fillText('TFC',w-70,tfcY-8);
+ctx.beginPath();ctx.strokeStyle='#16a34a';ctx.lineWidth=2.2;for(let x=0;x<=300;x++){const px=originX+x*1.6;const q=x;const tvc=0.008*q*q+0.3*q;const py=originY-tvc*0.9;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#16a34a';ctx.fillText('TVC',originX+230,originY-95);
+ctx.beginPath();ctx.strokeStyle='#dc2626';ctx.lineWidth=2.2;for(let x=0;x<=300;x++){const px=originX+x*1.6;const q=x;const tvc=0.008*q*q+0.3*q;const tc=tvc+55;const py=originY-tc*0.9;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#dc2626';ctx.fillText('TC',originX+250,originY-135);
+ctx.beginPath();ctx.setLineDash([4,4]);ctx.strokeStyle='#94a3b8';ctx.lineWidth=0.8;ctx.moveTo(originX+50,tfcY);ctx.lineTo(originX+50,originY-(55*0.9));ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#64748b';ctx.font='10px system-ui';ctx.fillText('TFC',originX+55,originY-30);})();
+
+(function(){const canvas=document.getElementById('chart2');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','Cost',originX,originY);
+ctx.beginPath();ctx.strokeStyle='#dc2626';ctx.lineWidth=2.2;for(let x=10;x<=280;x+=2){const px=originX+x;const q=x/30;const mc=12+0.5*(q-3)*(q-3)*2.2;const py=originY-mc*2.2;if(x===10)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#dc2626';ctx.fillText('MC',originX+260,originY-75);
+ctx.beginPath();ctx.strokeStyle='#16a34a';ctx.lineWidth=2.2;for(let x=10;x<=280;x+=2){const px=originX+x;const q=x/30;const avc=18+0.5*(q-5)*(q-5)*1.2;const py=originY-avc*2.2;if(x===10)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#16a34a';ctx.fillText('AVC',originX+190,originY-110);
+ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;for(let x=10;x<=280;x+=2){const px=originX+x;const q=x/30;const ac=25+0.5*(q-7)*(q-7)*0.9;const py=originY-ac*2.2;if(x===10)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#2563eb';ctx.fillText('AC',originX+230,originY-150);
+ctx.beginPath();ctx.arc(originX+150,originY-85,4,0,2*Math.PI);ctx.fillStyle='#0f172a';ctx.fill();ctx.font='10px system-ui';ctx.fillStyle='#0f172a';ctx.fillText('MC=AVC最低',originX+160,originY-90);})();
+
+(function(){const canvas=document.getElementById('chart3');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','P',originX,originY);
+ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;for(let x=0;x<=240;x+=4){const px=originX+x;const q=x/30;const p=22-0.9*q;const py=originY-p*5;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#2563eb';ctx.font='bold 12px system-ui';ctx.fillText('D',originX+220,originY-140);
+ctx.beginPath();ctx.strokeStyle='#16a34a';ctx.lineWidth=2.2;for(let x=0;x<=240;x+=4){const px=originX+x;const q=x/30;const p=4+1.0*q;const py=originY-p*5;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#16a34a';ctx.fillText('S',originX+220,originY-40);
+const eqQ=9,eqP=13;const eqPx=originX+eqQ*30/1.2;const eqPy=originY-eqP*5;ctx.beginPath();ctx.arc(eqPx,eqPy,5,0,2*Math.PI);ctx.fillStyle='#dc2626';ctx.fill();ctx.fillStyle='#dc2626';ctx.font='bold 12px system-ui';ctx.fillText('E',eqPx+8,eqPy-6);ctx.font='10px system-ui';ctx.fillStyle='#475569';ctx.fillText('均衡',eqPx+18,eqPy+14);})();
+
+(function(){const canvas=document.getElementById('chart4');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,h=canvas.height;const originX=60,originY=h-35;ctx.clearRect(0,0,w,h);drawAxes(ctx,w,h,'Q','P / R',originX,originY);
+ctx.beginPath();ctx.strokeStyle='#2563eb';ctx.lineWidth=2.2;const pcP=14;const pcPy=originY-pcP*6;ctx.moveTo(originX,pcPy);ctx.lineTo(w-50,pcPy);ctx.stroke();ctx.fillStyle='#2563eb';ctx.font='bold 11px system-ui';ctx.fillText('P=MR=AR (完全竞争)',w-180,pcPy-8);
+ctx.beginPath();ctx.strokeStyle='#dc2626';ctx.lineWidth=2.2;for(let x=0;x<=220;x+=4){const px=originX+x;const q=x/30;const p=20-0.8*q;const py=originY-p*6;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.fillStyle='#dc2626';ctx.fillText('D (垄断)',originX+180,originY-155);
+ctx.beginPath();ctx.strokeStyle='#9333ea';ctx.lineWidth=2;ctx.setLineDash([5,3]);for(let x=0;x<=180;x+=4){const px=originX+x;const q=x/30;const mr=20-1.6*q;const py=originY-mr*6;if(x===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#9333ea';ctx.fillText('MR (垄断)',originX+120,originY-60);
+ctx.font='10px system-ui';ctx.fillStyle='#475569';ctx.fillText('完全竞争 P 由市场决定',originX+10,originY-170);ctx.fillText('垄断 MR < P',originX+10,originY-150);})();
+</script>
+</body>
+</html>
