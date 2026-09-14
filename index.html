@@ -35,7 +35,7 @@ body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background
 .chart-container{background:#fff;border-radius:24px;padding:1.2rem 1.2rem 1rem;border:1px solid #e9eef3;margin-bottom:1.5rem;box-shadow:0 4px 10px rgba(0,0,0,.02)}
 .chart-title{font-weight:600;font-size:1rem;margin-bottom:1rem;color:#0f172a;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
 .chart-note{font-size:.8rem;color:#64748b;font-weight:400}
-canvas{display:block;width:100%;height:auto;max-width:100%;background:#fff;border-radius:12px}
+canvas{display:block;width:100%;height:auto;background:#fff;border-radius:12px}
 .legend{display:flex;flex-wrap:wrap;gap:.8rem 1.5rem;padding:.8rem .3rem .2rem;font-size:.85rem;color:#475569}
 .legend span{display:flex;align-items:center;gap:.3rem}
 .legend b{font-weight:700}
@@ -150,31 +150,31 @@ canvas{display:block;width:100%;height:auto;max-width:100%;background:#fff;borde
 
 <div class="chart-container">
 <div class="chart-title"><span>📊 TFC · TVC · TC 成本曲线</span><span class="chart-note">TFC 水平，TVC 上升，TC 与 TVC 平行</span></div>
-<canvas id="chart1" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" width="1000" height="500"></canvas>
+<canvas id="chart1" width="1100" height="600"></canvas>
 <div class="legend"><span><b style="color:#2563eb">━</b> TFC 总固定成本</span><span><b style="color:#16a34a">━</b> TVC 总可变成本</span><span><b style="color:#dc2626">━</b> TC 总成本</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>📉 MC · AC · AVC 曲线</span><span class="chart-note">MC 穿过 AVC 和 AC 的最低点</span></div>
-<canvas id="chart2" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" width="1000" height="500"></canvas>
+<canvas id="chart2" width="1100" height="600"></canvas>
 <div class="legend"><span><b style="color:#dc2626">━</b> MC 边际成本</span><span><b style="color:#16a34a">━</b> AVC 平均可变成本</span><span><b style="color:#2563eb">━</b> AC 平均总成本</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>⚖️ 供需曲线与均衡</span><span class="chart-note">D 向下，S 向上，交点 E 为均衡</span></div>
-<canvas id="chart3" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" width="1000" height="500"></canvas>
+<canvas id="chart3" width="1100" height="600"></canvas>
 <div class="legend"><span><b style="color:#2563eb">━</b> D 需求曲线</span><span><b style="color:#16a34a">━</b> S 供给曲线</span><span><b style="color:#dc2626">●</b> E 均衡点</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>🏢 完全竞争 vs 垄断 市场图形</span><span class="chart-note">完全竞争 P=MR=AR；垄断 MR &lt; P</span></div>
-<canvas id="chart4" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" width="1000" height="500"></canvas>
+<canvas id="chart4" width="1100" height="600"></canvas>
 <div class="legend"><span><b style="color:#2563eb">━</b> P=MR=AR（完全竞争）</span><span><b style="color:#dc2626">━</b> D（垄断需求）</span><span><b style="color:#9333ea">┅</b> MR（垄断边际收益）</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>📈 边际报酬递减规律</span><span class="chart-note">MP 先升后降，与 AP 相交于 AP 最高点</span></div>
-<canvas id="chart5" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" width="1000" height="500"></canvas>
+<canvas id="chart5" width="1100" height="600"></canvas>
 <div class="legend"><span><b style="color:#dc2626">━</b> MP 边际产量</span><span><b style="color:#2563eb">━</b> AP 平均产量</span><span><b style="color:#16a34a">━</b> TP 总产量</span></div>
 </div>
 </section>
@@ -246,10 +246,10 @@ canvas{display:block;width:100%;height:auto;max-width:100%;background:#fff;borde
   });
 })();
 
-// ===== 通用绘图 =====
+// ===== 绘图工具 =====
 function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
-  const plotW = w - ox - 80;
-  const plotH = oy - 80;
+  const plotW = w - ox - 100;
+  const plotH = oy - 100;
   const scaleX = plotW / xMax;
   const scaleY = plotH / yMax;
 
@@ -286,11 +286,11 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.lineTo(ox + 7, oy - plotH - 4);
   ctx.fill();
 
-  // 轴标签（放在箭头更外侧，绝不重叠）
+  // 轴标签（放外侧，绝不重叠）
   ctx.fillStyle = '#0f172a';
   ctx.font = 'bold 16px system-ui';
-  ctx.fillText(xLabel, ox + plotW + 25, oy + 5);
-  ctx.fillText(yLabel, ox - 45, oy - plotH - 25);
+  ctx.fillText(xLabel, ox + plotW + 25, oy + 6);
+  ctx.fillText(yLabel, ox - 55, oy - plotH - 28);
 
   // 刻度数字
   ctx.fillStyle = '#64748b';
@@ -303,7 +303,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.textAlign = 'right';
   for(let j=yStep; j<=yMax; j+=yStep){
     const py = oy - j*scaleY;
-    ctx.fillText(j, ox - 10, py + 5);
+    ctx.fillText(j, ox - 12, py + 5);
   }
   ctx.textAlign = 'left';
 
@@ -315,10 +315,10 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   const canvas = document.getElementById('chart1');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  const w = 1000, h = 500;
+  const w = 1100, h = 600;
   ctx.clearRect(0, 0, w, h);
-  const ox = 100, oy = h - 70;
-  const xMax = 10, yMax = 100;
+  const ox = 110, oy = h - 90;
+  const xMax = 10, yMax = 120;
 
   const { scaleX, scaleY } = drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost');
 
@@ -330,10 +330,10 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.lineTo(ox + xMax*scaleX, oy - 30*scaleY);
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 15px system-ui';
-  ctx.fillText('TFC = 30', ox + xMax*scaleX - 110, oy - 30*scaleY - 12);
+  ctx.font = 'bold 16px system-ui';
+  ctx.fillText('TFC = 30', ox + xMax*scaleX - 130, oy - 30*scaleY - 14);
 
-  // TVC = 0.8q² + 2q
+  // TVC
   ctx.beginPath();
   ctx.strokeStyle = '#16a34a';
   ctx.lineWidth = 3.5;
@@ -346,10 +346,10 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#16a34a';
-  ctx.font = 'bold 16px system-ui';
-  ctx.fillText('TVC', ox + 6.2*scaleX, oy - (0.8*38+12)*scaleY - 18);
+  ctx.font = 'bold 17px system-ui';
+  ctx.fillText('TVC', ox + 6.5*scaleX, oy - (0.8*42+12)*scaleY - 20);
 
-  // TC = 30 + TVC
+  // TC
   ctx.beginPath();
   ctx.strokeStyle = '#dc2626';
   ctx.lineWidth = 3.5;
@@ -362,8 +362,8 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 16px system-ui';
-  ctx.fillText('TC', ox + 5.5*scaleX, oy - (30+0.8*30+11)*scaleY - 25);
+  ctx.font = 'bold 17px system-ui';
+  ctx.fillText('TC', ox + 5.5*scaleX, oy - (30+0.8*30+11)*scaleY - 30);
 
   // TFC 距离虚线
   ctx.save();
@@ -392,14 +392,14 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   const canvas = document.getElementById('chart2');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  const w = 1000, h = 500;
+  const w = 1100, h = 600;
   ctx.clearRect(0, 0, w, h);
-  const ox = 100, oy = h - 70;
-  const xMax = 10, yMax = 100;
+  const ox = 110, oy = h - 90;
+  const xMax = 10, yMax = 120;
 
   const { scaleX, scaleY } = drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost');
 
-  // MC = 4 + 0.8(q-5)²
+  // MC
   ctx.beginPath();
   ctx.strokeStyle = '#dc2626';
   ctx.lineWidth = 3.5;
@@ -412,10 +412,10 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 16px system-ui';
-  ctx.fillText('MC', ox + 8.5*scaleX, oy - 55*scaleY);
+  ctx.font = 'bold 17px system-ui';
+  ctx.fillText('MC', ox + 8.5*scaleX, oy - 60*scaleY);
 
-  // AVC = 8 + 0.5(q-6)²
+  // AVC
   ctx.beginPath();
   ctx.strokeStyle = '#16a34a';
   ctx.lineWidth = 3.5;
@@ -428,10 +428,10 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#16a34a';
-  ctx.font = 'bold 16px system-ui';
-  ctx.fillText('AVC', ox + 7.5*scaleX, oy - 35*scaleY);
+  ctx.font = 'bold 17px system-ui';
+  ctx.fillText('AVC', ox + 7.5*scaleX, oy - 42*scaleY);
 
-  // AC = 15 + 0.4(q-8)²
+  // AC
   ctx.beginPath();
   ctx.strokeStyle = '#2563eb';
   ctx.lineWidth = 3.5;
@@ -444,8 +444,8 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 16px system-ui';
-  ctx.fillText('AC', ox + 8*scaleX, oy - 12*scaleY);
+  ctx.font = 'bold 17px system-ui';
+  ctx.fillText('AC', ox + 8*scaleX, oy - 20*scaleY);
 
   // MC=AVC 交点
   const qm = 5.2;
@@ -456,7 +456,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.fill();
   ctx.fillStyle = '#0f172a';
   ctx.font = '13px system-ui';
-  ctx.fillText('MC=AVC 最低点', ox + qm*scaleX + 12, oy - mcEq*scaleY - 12);
+  ctx.fillText('MC=AVC 最低点', ox + qm*scaleX + 12, oy - mcEq*scaleY - 14);
 
   // MC=AC 交点
   const qa = 7.8;
@@ -466,7 +466,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.fillStyle = '#0f172a';
   ctx.fill();
   ctx.font = '13px system-ui';
-  ctx.fillText('MC=AC 最低点', ox + qa*scaleX + 12, oy - mcEq2*scaleY + 22);
+  ctx.fillText('MC=AC 最低点', ox + qa*scaleX + 12, oy - mcEq2*scaleY + 24);
 })();
 
 // ===== 图3: 供需曲线 =====
@@ -474,9 +474,9 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   const canvas = document.getElementById('chart3');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  const w = 1000, h = 500;
+  const w = 1100, h = 600;
   ctx.clearRect(0, 0, w, h);
-  const ox = 100, oy = h - 70;
+  const ox = 110, oy = h - 90;
   const xMax = 10, yMax = 20;
 
   const { scaleX, scaleY } = drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 4, 'Q 数量', 'P 价格');
@@ -513,7 +513,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.font = 'bold 18px system-ui';
   ctx.fillText('S', ox + xMax*scaleX - 35, oy - (2+1.2*xMax)*scaleY + 10);
 
-  // 均衡点 E
+  // 均衡 E
   const eqQ = 6.67, eqP = 10;
   const eqPx = ox + eqQ*scaleX;
   const eqPy = oy - eqP*scaleY;
@@ -525,8 +525,8 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.lineWidth = 2;
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 15px system-ui';
-  ctx.fillText('E 均衡', eqPx + 16, eqPy - 12);
+  ctx.font = 'bold 16px system-ui';
+  ctx.fillText('E 均衡', eqPx + 16, eqPy - 14);
 
   // 虚线
   ctx.save();
@@ -540,7 +540,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.setLineDash([]);
   ctx.fillStyle = '#dc2626';
   ctx.font = '13px system-ui';
-  ctx.fillText('Q*=' + eqQ.toFixed(1), eqPx - 30, oy + 22);
+  ctx.fillText('Q*=' + eqQ.toFixed(1), eqPx - 30, oy + 24);
   ctx.fillText('P*=' + eqP, ox - 55, eqPy + 5);
   ctx.restore();
 })();
@@ -550,30 +550,30 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   const canvas = document.getElementById('chart4');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  const w = 1000, h = 500;
+  const w = 1100, h = 600;
   ctx.clearRect(0, 0, w, h);
-  const ox = 100, oy = h - 70;
-  const xMax = 10, yMax = 25;
+  const ox = 110, oy = h - 90;
+  const xMax = 10, yMax = 30;
 
   const { scaleX, scaleY } = drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'Q 数量', 'P / R');
 
-  // 完全竞争 P=MR=AR=15
+  // 完全竞争 P=MR=AR=18
   ctx.beginPath();
   ctx.strokeStyle = '#2563eb';
   ctx.lineWidth = 3.5;
-  ctx.moveTo(ox, oy - 15*scaleY);
-  ctx.lineTo(ox + xMax*scaleX, oy - 15*scaleY);
+  ctx.moveTo(ox, oy - 18*scaleY);
+  ctx.lineTo(ox + xMax*scaleX, oy - 18*scaleY);
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 14px system-ui';
-  ctx.fillText('P=MR=AR (完全竞争)', ox + 20, oy - 15*scaleY - 15);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('P=MR=AR (完全竞争)', ox + 20, oy - 18*scaleY - 14);
 
   // 垄断 D
   ctx.beginPath();
   ctx.strokeStyle = '#dc2626';
   ctx.lineWidth = 3.5;
   for(let q=0; q<=xMax; q+=0.05){
-    const p = 25 - 2*q;
+    const p = 28 - 2*q;
     if(p < 0) break;
     const px = ox + q*scaleX;
     const py = oy - p*scaleY;
@@ -581,8 +581,8 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 16px system-ui';
-  ctx.fillText('D (垄断)', ox + 0.3*scaleX, oy - 23*scaleY);
+  ctx.font = 'bold 17px system-ui';
+  ctx.fillText('D (垄断)', ox + 0.3*scaleX, oy - 27*scaleY);
 
   // 垄断 MR
   ctx.beginPath();
@@ -590,7 +590,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.lineWidth = 3;
   ctx.setLineDash([10,6]);
   for(let q=0; q<=xMax; q+=0.05){
-    const p = 25 - 4*q;
+    const p = 28 - 4*q;
     if(p < 0) break;
     const px = ox + q*scaleX;
     const py = oy - p*scaleY;
@@ -599,8 +599,8 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle = '#9333ea';
-  ctx.font = 'bold 16px system-ui';
-  ctx.fillText('MR (垄断)', ox + 1.5*scaleX, oy - 18*scaleY);
+  ctx.font = 'bold 17px system-ui';
+  ctx.fillText('MR (垄断)', ox + 1.5*scaleX, oy - 20*scaleY);
 })();
 
 // ===== 图5: 边际报酬递减 =====
@@ -608,10 +608,10 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   const canvas = document.getElementById('chart5');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  const w = 1000, h = 500;
+  const w = 1100, h = 600;
   ctx.clearRect(0, 0, w, h);
-  const ox = 100, oy = h - 70;
-  const xMax = 10, yMax = 30;
+  const ox = 110, oy = h - 90;
+  const xMax = 10, yMax = 45;
 
   const { scaleX, scaleY } = drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'L 劳动投入', 'TP / AP / MP');
 
@@ -621,7 +621,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.lineWidth = 3.5;
   for(let l=0; l<=xMax; l+=0.05){
     const tp = 8*l - 0.4*l*l;
-    if(tp < 0) continue;
+    if(tp < 0 || tp > yMax) continue;
     const px = ox + l*scaleX;
     const py = oy - tp*scaleY;
     if(l===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
@@ -629,7 +629,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.stroke();
   ctx.fillStyle = '#16a34a';
   ctx.font = 'bold 15px system-ui';
-  ctx.fillText('TP 总产量', ox + 0.3*scaleX, oy - 38*scaleY);
+  ctx.fillText('TP 总产量', ox + 0.3*scaleX, oy - 42*scaleY);
 
   // AP = 8 - 0.4L
   ctx.beginPath();
@@ -645,7 +645,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
   ctx.font = 'bold 15px system-ui';
-  ctx.fillText('AP 平均产量', ox + 5*scaleX, oy - 8*scaleY);
+  ctx.fillText('AP 平均产量', ox + 5*scaleX, oy - 6*scaleY - 14);
 
   // MP = 8 - 0.8L
   ctx.beginPath();
@@ -661,7 +661,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
   ctx.font = 'bold 15px system-ui';
-  ctx.fillText('MP 边际产量', ox + 2.5*scaleX, oy - 8*scaleY - 15);
+  ctx.fillText('MP 边际产量', ox + 3*scaleX, oy - 6*scaleY + 26);
 
   // MP=AP 交点 L=4
   const Lx = 4;
@@ -672,7 +672,7 @@ function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.fill();
   ctx.fillStyle = '#0f172a';
   ctx.font = '13px system-ui';
-  ctx.fillText('MP=AP (AP最高点)', ox + Lx*scaleX + 12, oy - MPx*scaleY - 12);
+  ctx.fillText('MP=AP (AP最高点)', ox + Lx*scaleX + 14, oy - MPx*scaleY - 14);
 })();
 </script>
 </body>
