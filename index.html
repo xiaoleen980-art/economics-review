@@ -148,32 +148,32 @@ canvas{width:100%;height:auto;display:block;background:#fff;border-radius:12px}
 <p class="section-sub">原生 JS 绘制 · 课本风格 · 标注清晰</p>
 
 <div class="chart-container">
-<div class="chart-title"><span>📊 TFC · TVC · TC 成本曲线</span><span class="chart-note">TFC 水平，TVC 上升，TC 与 TVC 平行，距离 = TFC</span></div>
-<canvas id="chart1" width="800" height="360"></canvas>
+<div class="chart-title"><span>📊 TFC · TVC · TC 成本曲线</span><span class="chart-note">TFC 水平，TVC 上升，TC 与 TVC 平行</span></div>
+<canvas id="chart1" width="1000" height="420"></canvas>
 <div class="legend"><span><b style="color:#2563eb">━</b> TFC 总固定成本</span><span><b style="color:#16a34a">━</b> TVC 总可变成本</span><span><b style="color:#dc2626">━</b> TC 总成本</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>📉 MC · AC · AVC 曲线</span><span class="chart-note">MC 穿过 AVC 和 AC 的最低点</span></div>
-<canvas id="chart2" width="800" height="360"></canvas>
+<canvas id="chart2" width="1000" height="420"></canvas>
 <div class="legend"><span><b style="color:#dc2626">━</b> MC 边际成本</span><span><b style="color:#16a34a">━</b> AVC 平均可变成本</span><span><b style="color:#2563eb">━</b> AC 平均总成本</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>⚖️ 供需曲线与均衡</span><span class="chart-note">D 向下，S 向上，交点 E 为均衡</span></div>
-<canvas id="chart3" width="800" height="360"></canvas>
+<canvas id="chart3" width="1000" height="420"></canvas>
 <div class="legend"><span><b style="color:#2563eb">━</b> D 需求曲线</span><span><b style="color:#16a34a">━</b> S 供给曲线</span><span><b style="color:#dc2626">●</b> E 均衡点</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>🏢 完全竞争 vs 垄断 市场图形</span><span class="chart-note">完全竞争 P=MR=AR；垄断 MR &lt; P</span></div>
-<canvas id="chart4" width="800" height="360"></canvas>
+<canvas id="chart4" width="1000" height="420"></canvas>
 <div class="legend"><span><b style="color:#2563eb">━</b> P=MR=AR（完全竞争）</span><span><b style="color:#dc2626">━</b> D（垄断需求）</span><span><b style="color:#9333ea">┅</b> MR（垄断边际收益）</span></div>
 </div>
 
 <div class="chart-container">
 <div class="chart-title"><span>📈 边际报酬递减规律</span><span class="chart-note">MP 先升后降，与 AP 相交于 AP 最高点</span></div>
-<canvas id="chart5" width="800" height="360"></canvas>
+<canvas id="chart5" width="1000" height="420"></canvas>
 <div class="legend"><span><b style="color:#dc2626">━</b> MP 边际产量</span><span><b style="color:#2563eb">━</b> AP 平均产量</span><span><b style="color:#16a34a">━</b> TP 总产量</span></div>
 </div>
 </section>
@@ -245,92 +245,81 @@ canvas{width:100%;height:auto;display:block;background:#fff;border-radius:12px}
   });
 })();
 
-// ===== 通用绘图工具 =====
-function setupCanvas(canvas){
-  const dpr = window.devicePixelRatio || 1;
-  const cssW = canvas.width;
-  const cssH = canvas.height;
-  canvas.width = cssW * dpr;
-  canvas.height = cssH * dpr;
-  canvas.style.width = '100%';
-  canvas.style.height = 'auto';
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-  return { ctx, w: cssW, h: cssH };
-}
-
-function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
-  ctx.save();
+// ===== 通用绘图函数 =====
+function drawAxes(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel, scaleX, scaleY){
   // 网格
-  ctx.strokeStyle = '#f1f5f9';
+  ctx.strokeStyle = '#e2e8f0';
   ctx.lineWidth = 1;
+  ctx.setLineDash([3,3]);
   for(let i=xStep; i<=xMax; i+=xStep){
-    const px = ox + (i/xMax)*(w-ox-40);
-    ctx.beginPath(); ctx.moveTo(px, oy); ctx.lineTo(px, 20); ctx.stroke();
+    const px = ox + i*scaleX;
+    ctx.beginPath(); ctx.moveTo(px, oy); ctx.lineTo(px, 30); ctx.stroke();
   }
   for(let j=yStep; j<=yMax; j+=yStep){
-    const py = oy - (j/yMax)*(oy-20);
+    const py = oy - j*scaleY;
     ctx.beginPath(); ctx.moveTo(ox, py); ctx.lineTo(w-40, py); ctx.stroke();
   }
+  ctx.setLineDash([]);
   // 坐标轴
-  ctx.strokeStyle = '#64748b';
-  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = '#334155';
+  ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(w-30, oy); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox, 20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox, 25); ctx.stroke();
   // 箭头
-  ctx.fillStyle = '#64748b';
-  ctx.beginPath(); ctx.moveTo(w-30, oy); ctx.lineTo(w-40, oy-5); ctx.lineTo(w-40, oy+5); ctx.fill();
-  ctx.beginPath(); ctx.moveTo(ox, 20); ctx.lineTo(ox-5, 30); ctx.lineTo(ox+5, 30); ctx.fill();
+  ctx.fillStyle = '#334155';
+  ctx.beginPath(); ctx.moveTo(w-30, oy); ctx.lineTo(w-42, oy-6); ctx.lineTo(w-42, oy+6); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(ox, 25); ctx.lineTo(ox-6, 37); ctx.lineTo(ox+6, 37); ctx.fill();
   // 轴标签
   ctx.fillStyle = '#0f172a';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText(xLabel, w-55, oy+22);
-  ctx.fillText(yLabel, ox-45, 30);
-  // 刻度
-  ctx.fillStyle = '#94a3b8';
-  ctx.font = '10px system-ui';
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText(xLabel, w-70, oy+28);
+  ctx.fillText(yLabel, ox-45, 40);
+  // 刻度数字
+  ctx.fillStyle = '#64748b';
+  ctx.font = '12px system-ui';
   ctx.textAlign = 'center';
   for(let i=xStep; i<=xMax; i+=xStep){
-    const px = ox + (i/xMax)*(w-ox-40);
-    ctx.fillText(i, px, oy+14);
+    const px = ox + i*scaleX;
+    ctx.fillText(i, px, oy+18);
   }
   ctx.textAlign = 'right';
   for(let j=yStep; j<=yMax; j+=yStep){
-    const py = oy - (j/yMax)*(oy-20);
-    ctx.fillText(j, ox-6, py+3);
+    const py = oy - j*scaleY;
+    ctx.fillText(j, ox-8, py+4);
   }
   ctx.textAlign = 'left';
-  ctx.restore();
 }
 
 // ===== 图1: TFC / TVC / TC =====
 (function(){
   const canvas = document.getElementById('chart1');
   if(!canvas) return;
-  const { ctx, w, h } = setupCanvas(canvas);
-  const ox = 55, oy = h - 35;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const ox = 70, oy = h - 50;
   const xMax = 10, yMax = 100;
-  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost');
+  const scaleX = (w - ox - 50) / xMax;
+  const scaleY = (oy - 40) / yMax;
 
-  const scaleX = (w - ox - 40) / xMax;
-  const scaleY = (oy - 20) / yMax;
+  drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost', scaleX, scaleY);
 
-  // TFC = 30 水平
+  // TFC = 30
   ctx.beginPath();
   ctx.strokeStyle = '#2563eb';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 3.5;
   ctx.moveTo(ox, oy - 30*scaleY);
   ctx.lineTo(ox + xMax*scaleX, oy - 30*scaleY);
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('TFC = 30', ox + xMax*scaleX - 90, oy - 30*scaleY - 8);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('TFC = 30', ox + xMax*scaleX - 110, oy - 30*scaleY - 10);
 
-  // TVC = 0.8*Q^2 + 2*Q
+  // TVC
   ctx.beginPath();
   ctx.strokeStyle = '#16a34a';
-  ctx.lineWidth = 3;
-  for(let q=0; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=0; q<=xMax; q+=0.05){
     const tvc = 0.8*q*q + 2*q;
     const px = ox + q*scaleX;
     const py = oy - tvc*scaleY;
@@ -338,14 +327,14 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#16a34a';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('TVC', ox + 8*xMax/10*scaleX, oy - (0.8*64+16)*scaleY - 10);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('TVC', ox + 7*scaleX, oy - (0.8*49+14)*scaleY - 10);
 
-  // TC = TFC + TVC
+  // TC
   ctx.beginPath();
   ctx.strokeStyle = '#dc2626';
-  ctx.lineWidth = 3;
-  for(let q=0; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=0; q<=xMax; q+=0.05){
     const tc = 30 + 0.8*q*q + 2*q;
     const px = ox + q*scaleX;
     const py = oy - tc*scaleY;
@@ -353,51 +342,50 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('TC', ox + 8.5*xMax/10*scaleX, oy - (30+0.8*72+18)*scaleY - 10);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('TC', ox + 8*scaleX, oy - (30+0.8*64+16)*scaleY - 10);
 
-  // 标注 TFC 距离
+  // TFC 距离标注
   ctx.save();
   ctx.setLineDash([5,5]);
   ctx.strokeStyle = '#94a3b8';
-  ctx.lineWidth = 1;
+  ctx.lineWidth = 1.2;
   ctx.beginPath();
   ctx.moveTo(ox + 5*scaleX, oy - 30*scaleY);
   ctx.lineTo(ox + 5*scaleX, oy - (30+0.8*25+10)*scaleY);
   ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle = '#64748b';
-  ctx.font = '11px system-ui';
-  ctx.fillText('TFC 距离', ox + 5*scaleX + 5, oy - 50*scaleY);
+  ctx.font = '12px system-ui';
+  ctx.fillText('TFC 距离', ox + 5*scaleX + 6, oy - 50*scaleY);
   ctx.restore();
 
-  // Q=0 时 TC=TFC
+  // 起点
   ctx.beginPath();
-  ctx.arc(ox, oy - 30*scaleY, 4, 0, 2*Math.PI);
+  ctx.arc(ox, oy - 30*scaleY, 5, 0, 2*Math.PI);
   ctx.fillStyle = '#0f172a';
   ctx.fill();
-  ctx.fillStyle = '#0f172a';
-  ctx.font = '11px system-ui';
-  ctx.fillText('Q=0, TC=TFC', ox + 8, oy - 30*scaleY - 8);
 })();
 
 // ===== 图2: MC / AC / AVC =====
 (function(){
   const canvas = document.getElementById('chart2');
   if(!canvas) return;
-  const { ctx, w, h } = setupCanvas(canvas);
-  const ox = 55, oy = h - 35;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const ox = 70, oy = h - 50;
   const xMax = 10, yMax = 100;
-  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost');
+  const scaleX = (w - ox - 50) / xMax;
+  const scaleY = (oy - 40) / yMax;
 
-  const scaleX = (w - ox - 40) / xMax;
-  const scaleY = (oy - 20) / yMax;
+  drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 20, 'Q 产量', 'Cost', scaleX, scaleY);
 
-  // MC = 4 + 0.8*(Q-5)^2
+  // MC
   ctx.beginPath();
   ctx.strokeStyle = '#dc2626';
-  ctx.lineWidth = 3;
-  for(let q=0.5; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=0.5; q<=xMax; q+=0.05){
     const mc = 4 + 0.8*(q-5)*(q-5);
     const px = ox + q*scaleX;
     const py = oy - mc*scaleY;
@@ -405,14 +393,14 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('MC', ox + xMax*scaleX - 40, oy - (4+0.8*25)*scaleY - 10);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('MC', ox + 8.5*scaleX, oy - (4+0.8*20)*scaleY - 10);
 
-  // AVC = 8 + 0.5*(Q-6)^2
+  // AVC
   ctx.beginPath();
   ctx.strokeStyle = '#16a34a';
-  ctx.lineWidth = 3;
-  for(let q=1; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=1; q<=xMax; q+=0.05){
     const avc = 8 + 0.5*(q-6)*(q-6);
     const px = ox + q*scaleX;
     const py = oy - avc*scaleY;
@@ -420,14 +408,14 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#16a34a';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('AVC', ox + xMax*scaleX - 60, oy - (8+0.5*16)*scaleY - 10);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('AVC', ox + 8.5*scaleX, oy - (8+0.5*16)*scaleY - 10);
 
-  // AC = 15 + 0.4*(Q-8)^2
+  // AC
   ctx.beginPath();
   ctx.strokeStyle = '#2563eb';
-  ctx.lineWidth = 3;
-  for(let q=1.5; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=1.5; q<=xMax; q+=0.05){
     const ac = 15 + 0.4*(q-8)*(q-8);
     const px = ox + q*scaleX;
     const py = oy - ac*scaleY;
@@ -435,52 +423,50 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('AC', ox + xMax*scaleX - 60, oy - (15+0.4*4)*scaleY - 10);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('AC', ox + 8.5*scaleX, oy - (15+0.4*4)*scaleY - 10);
 
   // MC=AVC 交点
   const qm = 5.2;
   const mcEq = 4 + 0.8*(qm-5)*(qm-5);
-  const pxEq = ox + qm*scaleX;
-  const pyEq = oy - mcEq*scaleY;
   ctx.beginPath();
-  ctx.arc(pxEq, pyEq, 5, 0, 2*Math.PI);
+  ctx.arc(ox + qm*scaleX, oy - mcEq*scaleY, 6, 0, 2*Math.PI);
   ctx.fillStyle = '#0f172a';
   ctx.fill();
   ctx.fillStyle = '#0f172a';
-  ctx.font = '11px system-ui';
-  ctx.fillText('MC=AVC 最低点', pxEq + 8, pyEq - 8);
+  ctx.font = '12px system-ui';
+  ctx.fillText('MC=AVC 最低点', ox + qm*scaleX + 10, oy - mcEq*scaleY - 10);
 
   // MC=AC 交点
   const qa = 7.5;
   const mcEq2 = 4 + 0.8*(qa-5)*(qa-5);
-  const pxEq2 = ox + qa*scaleX;
-  const pyEq2 = oy - mcEq2*scaleY;
   ctx.beginPath();
-  ctx.arc(pxEq2, pyEq2, 5, 0, 2*Math.PI);
+  ctx.arc(ox + qa*scaleX, oy - mcEq2*scaleY, 6, 0, 2*Math.PI);
   ctx.fillStyle = '#0f172a';
   ctx.fill();
-  ctx.font = '11px system-ui';
-  ctx.fillText('MC=AC 最低点', pxEq2 + 8, pyEq2 + 16);
+  ctx.font = '12px system-ui';
+  ctx.fillText('MC=AC 最低点', ox + qa*scaleX + 10, oy - mcEq2*scaleY + 20);
 })();
 
 // ===== 图3: 供需曲线 =====
 (function(){
   const canvas = document.getElementById('chart3');
   if(!canvas) return;
-  const { ctx, w, h } = setupCanvas(canvas);
-  const ox = 55, oy = h - 35;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const ox = 70, oy = h - 50;
   const xMax = 10, yMax = 20;
-  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 4, 'Q 数量', 'P 价格');
+  const scaleX = (w - ox - 50) / xMax;
+  const scaleY = (oy - 40) / yMax;
 
-  const scaleX = (w - ox - 40) / xMax;
-  const scaleY = (oy - 20) / yMax;
+  drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 4, 'Q 数量', 'P 价格', scaleX, scaleY);
 
-  // D: P = 20 - 1.5Q
+  // D
   ctx.beginPath();
   ctx.strokeStyle = '#2563eb';
-  ctx.lineWidth = 3;
-  for(let q=0; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=0; q<=xMax; q+=0.05){
     const p = 20 - 1.5*q;
     if(p < 0) break;
     const px = ox + q*scaleX;
@@ -489,14 +475,14 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 14px system-ui';
-  ctx.fillText('D', ox + 0.5*scaleX, oy - (20-0.75)*scaleY - 8);
+  ctx.font = 'bold 16px system-ui';
+  ctx.fillText('D', ox + 0.3*scaleX, oy - 19*scaleY);
 
-  // S: P = 2 + 1.2Q
+  // S
   ctx.beginPath();
   ctx.strokeStyle = '#16a34a';
-  ctx.lineWidth = 3;
-  for(let q=0; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=0; q<=xMax; q+=0.05){
     const p = 2 + 1.2*q;
     if(p > yMax) break;
     const px = ox + q*scaleX;
@@ -505,38 +491,38 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#16a34a';
-  ctx.font = 'bold 14px system-ui';
-  ctx.fillText('S', ox + xMax*scaleX - 25, oy - (2+1.2*xMax)*scaleY + 5);
+  ctx.font = 'bold 16px system-ui';
+  ctx.fillText('S', ox + xMax*scaleX - 30, oy - (2+1.2*xMax)*scaleY + 8);
 
-  // 均衡：Q=6.67, P=10
+  // 均衡 E
   const eqQ = 6.67, eqP = 10;
   const eqPx = ox + eqQ*scaleX;
   const eqPy = oy - eqP*scaleY;
   ctx.beginPath();
-  ctx.arc(eqPx, eqPy, 6, 0, 2*Math.PI);
+  ctx.arc(eqPx, eqPy, 8, 0, 2*Math.PI);
   ctx.fillStyle = '#dc2626';
   ctx.fill();
   ctx.strokeStyle = 'white';
   ctx.lineWidth = 2;
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 14px system-ui';
-  ctx.fillText('E 均衡', eqPx + 10, eqPy - 8);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('E 均衡', eqPx + 14, eqPy - 10);
 
   // 虚线
   ctx.save();
   ctx.setLineDash([5,5]);
   ctx.strokeStyle = '#dc2626';
-  ctx.lineWidth = 1.2;
+  ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.moveTo(eqPx, eqPy); ctx.lineTo(eqPx, oy); ctx.stroke();
   ctx.beginPath();
   ctx.moveTo(eqPx, eqPy); ctx.lineTo(ox, eqPy); ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle = '#dc2626';
-  ctx.font = '11px system-ui';
-  ctx.fillText('Q*=' + eqQ.toFixed(1), eqPx - 18, oy + 14);
-  ctx.fillText('P*=' + eqP, ox - 48, eqPy + 4);
+  ctx.font = '12px system-ui';
+  ctx.fillText('Q*=' + eqQ.toFixed(1), eqPx - 25, oy + 20);
+  ctx.fillText('P*=' + eqP, ox - 55, eqPy + 5);
   ctx.restore();
 })();
 
@@ -544,30 +530,32 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
 (function(){
   const canvas = document.getElementById('chart4');
   if(!canvas) return;
-  const { ctx, w, h } = setupCanvas(canvas);
-  const ox = 55, oy = h - 35;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const ox = 70, oy = h - 50;
   const xMax = 10, yMax = 25;
-  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'Q 数量', 'P / R');
+  const scaleX = (w - ox - 50) / xMax;
+  const scaleY = (oy - 40) / yMax;
 
-  const scaleX = (w - ox - 40) / xMax;
-  const scaleY = (oy - 20) / yMax;
+  drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'Q 数量', 'P / R', scaleX, scaleY);
 
-  // 完全竞争 P=MR=AR=15
+  // 完全竞争
   ctx.beginPath();
   ctx.strokeStyle = '#2563eb';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 3.5;
   ctx.moveTo(ox, oy - 15*scaleY);
   ctx.lineTo(ox + xMax*scaleX, oy - 15*scaleY);
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 12px system-ui';
-  ctx.fillText('P=MR=AR (完全竞争)', ox + 10, oy - 15*scaleY - 8);
+  ctx.font = 'bold 14px system-ui';
+  ctx.fillText('P=MR=AR (完全竞争)', ox + 20, oy - 15*scaleY - 12);
 
-  // 垄断 D: P = 25 - 2Q
+  // 垄断 D
   ctx.beginPath();
   ctx.strokeStyle = '#dc2626';
-  ctx.lineWidth = 3;
-  for(let q=0; q<=xMax; q+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let q=0; q<=xMax; q+=0.05){
     const p = 25 - 2*q;
     if(p < 0) break;
     const px = ox + q*scaleX;
@@ -576,15 +564,15 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('D (垄断)', ox + 0.3*scaleX, oy - 25*scaleY + 15);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('D (垄断)', ox + 0.3*scaleX, oy - 23*scaleY);
 
-  // 垄断 MR: P = 25 - 4Q
+  // 垄断 MR
   ctx.beginPath();
   ctx.strokeStyle = '#9333ea';
   ctx.lineWidth = 3;
-  ctx.setLineDash([8,5]);
-  for(let q=0; q<=xMax; q+=0.1){
+  ctx.setLineDash([10,6]);
+  for(let q=0; q<=xMax; q+=0.05){
     const p = 25 - 4*q;
     if(p < 0) break;
     const px = ox + q*scaleX;
@@ -594,31 +582,29 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle = '#9333ea';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('MR (垄断)', ox + 1.5*scaleX, oy - (25-6)*scaleY - 8);
-
-  ctx.fillStyle = '#64748b';
-  ctx.font = '11px system-ui';
-  ctx.fillText('垄断时 MR 始终低于 AR/P', ox + 10, 35);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('MR (垄断)', ox + 1.5*scaleX, oy - 18*scaleY);
 })();
 
 // ===== 图5: 边际报酬递减 =====
 (function(){
   const canvas = document.getElementById('chart5');
   if(!canvas) return;
-  const { ctx, w, h } = setupCanvas(canvas);
-  const ox = 55, oy = h - 35;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const ox = 70, oy = h - 50;
   const xMax = 10, yMax = 30;
-  drawGrid(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'L 劳动投入', 'TP / AP / MP');
+  const scaleX = (w - ox - 50) / xMax;
+  const scaleY = (oy - 40) / yMax;
 
-  const scaleX = (w - ox - 40) / xMax;
-  const scaleY = (oy - 20) / yMax;
+  drawAxes(ctx, ox, oy, w, h, xMax, yMax, 2, 5, 'L 劳动投入', 'TP / AP / MP', scaleX, scaleY);
 
-  // TP = 8L - 0.4L^2
+  // TP
   ctx.beginPath();
   ctx.strokeStyle = '#16a34a';
-  ctx.lineWidth = 3;
-  for(let l=0; l<=xMax; l+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let l=0; l<=xMax; l+=0.05){
     const tp = 8*l - 0.4*l*l;
     if(tp < 0) continue;
     const px = ox + l*scaleX;
@@ -627,14 +613,14 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#16a34a';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('TP 总产量', ox + 0.5*scaleX, oy - 35*scaleY + 10);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('TP 总产量', ox + 0.3*scaleX, oy - 38*scaleY);
 
-  // AP = 8 - 0.4L
+  // AP
   ctx.beginPath();
   ctx.strokeStyle = '#2563eb';
-  ctx.lineWidth = 3;
-  for(let l=0.2; l<=xMax; l+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let l=0.2; l<=xMax; l+=0.05){
     const ap = 8 - 0.4*l;
     if(ap < 0) continue;
     const px = ox + l*scaleX;
@@ -643,14 +629,14 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#2563eb';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('AP 平均产量', ox + 4.5*scaleX, oy - 8*scaleY + 12);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('AP 平均产量', ox + 4.5*scaleX, oy - 7*scaleY);
 
-  // MP = 8 - 0.8L
+  // MP
   ctx.beginPath();
   ctx.strokeStyle = '#dc2626';
-  ctx.lineWidth = 3;
-  for(let l=0.2; l<=xMax; l+=0.1){
+  ctx.lineWidth = 3.5;
+  for(let l=0.2; l<=xMax; l+=0.05){
     const mp = 8 - 0.8*l;
     if(mp < 0) continue;
     const px = ox + l*scaleX;
@@ -659,21 +645,19 @@ function drawGrid(ctx, ox, oy, w, h, xMax, yMax, xStep, yStep, xLabel, yLabel){
   }
   ctx.stroke();
   ctx.fillStyle = '#dc2626';
-  ctx.font = 'bold 13px system-ui';
-  ctx.fillText('MP 边际产量', ox + 2*scaleX, oy - 8*scaleY - 8);
+  ctx.font = 'bold 15px system-ui';
+  ctx.fillText('MP 边际产量', ox + 2*scaleX, oy - 7*scaleY - 12);
 
-  // MP=AP 交点 (L=4)
+  // MP=AP 交点 L=4
   const Lx = 4;
   const MPx = 8 - 0.8*Lx;
-  const pxEq = ox + Lx*scaleX;
-  const pyEq = oy - MPx*scaleY;
   ctx.beginPath();
-  ctx.arc(pxEq, pyEq, 5, 0, 2*Math.PI);
+  ctx.arc(ox + Lx*scaleX, oy - MPx*scaleY, 6, 0, 2*Math.PI);
   ctx.fillStyle = '#0f172a';
   ctx.fill();
   ctx.fillStyle = '#0f172a';
-  ctx.font = '11px system-ui';
-  ctx.fillText('MP=AP (AP最高点)', pxEq + 8, pyEq - 6);
+  ctx.font = '12px system-ui';
+  ctx.fillText('MP=AP (AP最高点)', ox + Lx*scaleX + 12, oy - MPx*scaleY - 10);
 })();
 </script>
 </body>
